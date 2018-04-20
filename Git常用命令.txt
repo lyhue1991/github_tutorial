@@ -1,0 +1,189 @@
+Git常用命令
+
+〇，10分钟入门
+
+配置用户信息：
+git config --global user.name "XX"
+git config --global user.email "XX@XX"
+
+新建文件夹并切入
+mkdir git-learn
+cd git-learn
+
+创建仓库：
+git init
+
+新建readme.txt
+echo "hello world" >>readme.txt
+
+查看当前状态：
+git status
+
+添加全部修改到暂存区并提交
+git add -A
+git commit -m"comment"
+gitk 
+
+添加github远程库并推送文件
+git remote add origin https://github.com/XX/XX
+git push -u origin master
+
+在github上的项目clone到本地文件
+git clone https://github.com/XX/XX  ../XX
+
+
+一，安装配置
+
+命令列表：
+config(配置信息)
+init(创建仓库)
+help(帮助信息)
+status(当前状态)
+gitk(图形界面)
+
+
+示范1：
+设置用户名：
+git config --global user.name "XXX"
+设置用户邮箱：
+git config --global user.email "XXX@XX"
+
+
+示范2：
+获取常用git命令列表：
+git help
+查看当前状态，获取提示：
+git status
+
+
+示范3：
+产生SSH密钥对：
+ssh-keygen -t rsa -C "your_emial@xxx.com"
+将公钥绑定github后尝试建立SSH连接:
+ssh -T git@github.com
+
+
+二，版本管理
+
+命令列表：
+add(修改暂存)
+commit(提交修改)
+reset(版本回退)
+checkout(撤销修改)
+rm(删除文件)
+diff(比较文件)
+log(版本列表)
+reflog(版本历史)
+
+
+示范1：
+git add readme.txt
+git add -A
+git commit -m"add readme.txt"
+修改覆盖上一次commit:
+git commit --amend
+先暂存再提交：
+git commit -a -m"modify readme.txt"
+
+示范2：
+git reset --hard head^
+git reset head a23b5
+撤销修改：
+git checkout -- readme.txt
+图形显示仓库版本及分支状态：
+git log --oneline --graph --all
+查看head指向过的版本历史：
+git reflog
+
+示范3：
+查看工作区文件与暂存区文件区别：
+git diff  readme.txt
+查看工作区文件和head文件区别：
+git diff --head readme.txt
+查看暂存区文件与head文件区别：
+git diff --cached readme.txt
+查看两个版本某一文件的区别:
+git diff a458b d23e5 -- readme.txt
+
+
+三，远程仓库
+
+命令列表：
+remote(设置远程)
+push(推送远程)
+clone(克隆远程)
+pull(合并远程)
+fetch(更新远程)
+
+
+示范1：
+使用ssh地址添加github远程库连接并命名为github：
+git remote add github git@github.com:lyhue1991/ai.git:
+使用url地址添加远程库：
+git remote add origin https://github.com/lyhue1991/GitHub.git
+
+示范2：
+推送本地至远程库origin的master分支:
+git push -u origin master
+查看远程库信息：
+git remote -v
+移除和远程库的连接:
+git remote remove orgin
+
+示范3：
+建立当前master分支与远程库develop分支的追踪关系：
+git branch --set-upstream master origin/develop
+将远程仓库克隆到本地父目录的ML文件夹：
+git clone https://github.com/lyhue1991/machine-learning.git ../ML
+取回origin的develop分支与当前master分支合并(或会冲突)：
+git pull orgin/develop:master
+获取origin的develop分支到本地：
+git fetch origin develop
+
+
+四，分支协作
+
+命令列表：
+branch(设置分支)
+checkout(切换分支)
+merge(合并分支)
+cherry-pick(采集提交)
+rebase(重演分支)
+stash(储藏管理)
+tag(标签管理)
+
+
+示范1：
+查看分支信息：
+git branch
+当前head位置新建develop分支：
+git branch develop
+创建并切换到名称为feature的新分支：
+git checkout -b feature
+切换至master分支：
+git checkout master
+
+
+示范2：
+head处于develop分支,合并feature分支(或会冲突)：
+git merge  --no-ff -m"merge feature"  feature
+采集其它分支中版本号为a458b的commit提交至当前分支(或会冲突)：
+git cherry-pick a458b
+使用当前所在分支作为base重演develop分支(或会冲突)：
+git rebase develop
+
+示范3：
+git stash;
+git stash pop;
+git stash list;
+git stash save "message"
+git stash apply @2
+git tag;
+git tag v1.0;
+git tag v0.9 a2543d;
+推送标签到远程(标签不会自动推送)
+git push origin v1.0
+删除远程标签(先删本地，再push)：
+git tag -d v0.9
+git push origin :refs/tags/v0.9
+
